@@ -147,9 +147,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 pausado = false;
                 if (motionEvent.getY() > pantallaY - pantallaY /8){
                     if (motionEvent.getX() > pantallaX / 2){
-                        if (nave.getX() + nave.getAnchura() <= pantallaX ){ nave.setEstadoMovimiento(nave.DER);}
+                        nave.setEstadoMovimiento(nave.DER);
                     }else{
-                        if (nave.getX() >=  0){nave.setEstadoMovimiento(nave.IZQ);}
+                        nave.setEstadoMovimiento(nave.IZQ);
                     }
 
                 }
