@@ -59,7 +59,7 @@ public class NaveJugador {
             x = x + velocidadNave / fps;
         }
         rect.top = y;
-        rect.bottom = y - altura;
+        rect.bottom = y + altura;
         rect.left = x;
         rect.right = x + anchura;
     }

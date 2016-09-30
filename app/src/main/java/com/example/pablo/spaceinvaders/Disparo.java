@@ -36,7 +36,7 @@ public class Disparo {
     public void setInactiva(){
         activada = false;
     }
-    public float getPuntoImpactoYÇ(){
+    public float getPuntoImpactoY(){
         if (heading == DOWN){
             return y + altura;
         }else{

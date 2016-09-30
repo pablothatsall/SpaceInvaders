@@ -96,6 +96,10 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
         if(disparo.getEstado()){
             disparo.actualizar(fps);
+            if (disparo.getPuntoImpactoY() < 0){
+                disparo.setInactiva();
+            }
+
         }
     }
 
