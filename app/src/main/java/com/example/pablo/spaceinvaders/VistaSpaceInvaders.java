@@ -85,9 +85,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private void actualizar(){
         boolean bumped = false;
         boolean perdido = false;
-        if (nave.getX > 0 && Nave.getX < pantallaY){
-            nave.actualizar(fps);
-        }
+        if (nave.getX > 0 && Nave.getX < pantallaX){ nave.actualizar(fps) };
         for(int i = 0; i < disparoInvasores.length; i++){
             if(disparoInvasores[i].getEstado()){
                 disparoInvasores[i].actualizar(fps);
