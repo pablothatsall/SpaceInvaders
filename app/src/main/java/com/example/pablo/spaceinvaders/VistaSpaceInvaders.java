@@ -121,7 +121,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             lienzo.drawBitmap(nave.getBitmap(),nave.getX(), pantallaY - 80, paint);
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTextSize(40);
-            lienzo.drawText("Puntuacion: " + puntuacion + " Vidas: " + vidas, 10, 50, paint);
+            lienzo.drawText(puntuacion + " ptos" , 10, 50, paint);
+            lienzo.drawText("Vidas: " + vidas, pantallaX-pantallaX/8, 50, paint);
             holder.unlockCanvasAndPost(lienzo);
         }
     }
@@ -145,7 +146,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
             case MotionEvent.ACTION_DOWN:
                 pausado = false;
-                if (motionEvent.getY() > pantallaY - pantallaY /8){
+                if (motionEvent.getY() > pantallaY - pantallaY /6){
                     if (motionEvent.getX() > pantallaX / 2){
                         nave.setEstadoMovimiento(nave.DER);
                     }else{
@@ -153,7 +154,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     }
 
                 }
-                if(motionEvent.getY() < pantallaY - pantallaY / 8){
+                if(motionEvent.getY() < pantallaY - pantallaY / 6){
                     if(disparo.disparar(nave.getX()+nave.getAnchura()/2, pantallaY, disparo.UP)){
 
                     }
