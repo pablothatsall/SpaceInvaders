@@ -55,6 +55,8 @@ public class NaveJugador {
     public void actualizar(long fps){
         if(movimientoNave == IZQ){
             x = x - velocidadNave / fps;
+        }else{
+            y = y + velocidadNave / fps;
         }
         rect.top = y;
         rect.bottom = y - altura;
