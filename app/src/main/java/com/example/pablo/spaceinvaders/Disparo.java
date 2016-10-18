@@ -16,7 +16,7 @@ public class Disparo {
     int heading = -1;
     float velocidad = 350;
 
-    private int anchura = 1;
+    private int anchura =10;
     private int altura;
 
     private boolean activada;
