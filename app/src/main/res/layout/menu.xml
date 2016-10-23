@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <TextView
-        android:text="SPACE INVADERS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_weight="0.400"
-        android:textSize="50sp"
-        android:textAlignment="center"
-        android:paddingTop="30dp"
-        android:fontFamily="monospace" />
+    <ImageView
+        android:layout_marginLeft="140dp"
+        android:layout_width="318dp"
+        android:layout_height="136dp"
+        android:id="@+id/imageView2"
+        android:background="@drawable/starinvaders" />
 
     <Button
         android:text="JUGAR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:layout_weight="0.15"
+        android:layout_weight="0.41"
         android:textSize="30sp" />
 
     <Button
@@ -29,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
-        android:layout_weight="0.15"
+        android:layout_weight="0.38"
         android:textSize="30sp" />
 
 </LinearLayout>
