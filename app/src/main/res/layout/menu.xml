@@ -7,7 +7,7 @@
     android:weightSum="1">
 
     <ImageView
-        android:layout_marginLeft="140dp"
+        android:layout_marginLeft="139dp"
         android:layout_width="318dp"
         android:layout_height="136dp"
         android:id="@+id/imageView2"
