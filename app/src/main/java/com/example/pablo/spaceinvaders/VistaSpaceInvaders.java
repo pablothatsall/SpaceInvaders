@@ -39,6 +39,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     private NaveJugador nave;
     private Disparo disparo;
+
     private Disparo[] disparoInvasores = new Disparo[200];
     private int sigDisparo;
     private int maxDisparos = 10;
@@ -47,6 +48,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     int numInvaders = 0;
 
     //Cubos defensivos
+    private CuboDefensivo[] cubos = new CuboDefensivo[400];
+    private int numCubos;
     //Sonidos
     private SoundPool soundPool;
     private int shootID = -1;
@@ -99,6 +102,16 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             for(int fila = 0; fila < 5; fila++){
                 invaders[numInvaders] = new Invader(context, fila, columna, pantallaX, pantallaY);
                 numInvaders++;
+            }
+        }
+
+        numCubos = 0;
+        for(int numEscudos = 0; numEscudos < 4; numEscudos++){
+            for(int columna = 0; columna < 10; columna++){
+                for (int fila = 0; fila < 5; fila ++){
+                    cubos[numCubos] = new CuboDefensivo(fila, columna, numEscudos, pantallaX, pantallaY);
+                    numCubos++;
+                }
             }
         }
 
@@ -197,6 +210,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 }
             }
             //Dibuja Cosas
+
             lienzo.drawBitmap(nave.getBitmap(),nave.getX(), pantallaY - 80, paint);
             paint.setColor(Color.argb(255, 255, 255, 255));
 
@@ -207,6 +221,11 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     }else{
                         lienzo.drawBitmap(invaders[i].getBitmap2(), invaders[i].getX(), invaders[i].getY(), paint);
                     }
+                }
+            }
+            for(int i = 0; i < numCubos; i++){
+                if(cubos[i].getVisibilidad()){
+                    lienzo.drawRect(cubos[i].getRect(), paint);
                 }
             }
             paint.setTextSize(40);
