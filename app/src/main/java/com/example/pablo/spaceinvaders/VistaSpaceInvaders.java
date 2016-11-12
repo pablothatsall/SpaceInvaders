@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -53,6 +54,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     //Sonidos
     private SoundPool soundPool;
     private int shootID = -1;
+    private int playerExplodeID = -1;
+    private int invaderExplodeID = -1;
+    private int damageShelterID = -1;
     private int uhID = -1;
     private int ohID = -1;
 
@@ -82,6 +86,14 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             uhID = soundPool.load(descriptor, 0);
             descriptor = assetManager.openFd("oh.ogg");
             ohID = soundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("invaderexplode.ogg");
+            invaderExplodeID = soundPool.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("damageshelter.ogg");
+            damageShelterID = soundPool.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("playerexplode.ogg");
+            playerExplodeID = soundPool.load(descriptor, 0);
         }catch (IOException e){
             Log.e("error", "failed to load sound files");
         }
@@ -150,6 +162,79 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         boolean bumped = false;
         boolean perdido = false;
         nave.actualizar(fps);
+
+        if(disparo.getPuntoImpactoY() < 0){
+            disparo.setInactiva();
+        }
+
+        for(int i=0; i < disparoInvasores.length; i++){
+            if(disparoInvasores[i].getPuntoImpactoY() > pantallaY){
+                disparoInvasores[i].setInactiva();
+            }
+        }
+
+        if(disparo.getEstado()){
+            for(int i = 0; i < numInvaders; i++){
+                if(invaders[i].getVisibilidad()){
+                    if(RectF.intersects(disparo.getRect(), invaders[i].getRect())){
+                        invaders[i].setInvisible();
+                        soundPool.play(invaderExplodeID, 1, 1, 0, 0, 1);
+                        disparo.setInactiva();
+                        puntuacion = puntuacion + 10;
+
+                        if(puntuacion == numInvaders*10){
+                            pausado = true;
+                            puntuacion = 0;
+                            vidas = 3;
+                            prepararNivel();
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < disparoInvasores.length; i++){
+            if (disparoInvasores[i].getEstado()) {
+                for(int j= 0; j < numCubos; j++){
+                    if(cubos[j].getVisibilidad()){
+                        if(RectF.intersects(disparoInvasores[i].getRect(), cubos[j].getRect())){
+                            disparoInvasores[i].setInactiva();
+                            cubos[j].setInvisible();
+                            soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if(disparo.getEstado()){
+            for(int i = 0; i < numCubos; i++) {
+                if (cubos[i].getVisibilidad()){
+                    if(RectF.intersects(disparo.getRect(), cubos[i].getRect())){
+                        disparo.setInactiva();
+                        cubos[i].setInvisible();
+                        soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < disparoInvasores.length; i++){
+            if(disparoInvasores[i].getEstado()){
+                if(RectF.intersects(nave.getRect(), disparoInvasores[i].getRect())){
+                    disparoInvasores[i].setInactiva();
+                    vidas--;
+                    soundPool.play(playerExplodeID, 1, 1, 0, 0, 1);
+
+                    if(vidas == 0){
+                        pausado = true;
+                        vidas = 3;
+                        puntuacion = 0;
+                        prepararNivel();
+                    }
+                }
+            }
+        }
 
         for(int i = 0; i<numInvaders; i++){
             if(invaders[i].getVisibilidad()){
