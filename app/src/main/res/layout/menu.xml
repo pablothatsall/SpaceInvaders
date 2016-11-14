@@ -30,12 +30,4 @@
         android:layout_weight="0.20"
         android:textSize="30sp" />
 
-    <Button
-        android:text="NAVES"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:layout_weight="0.20"
-        android:textSize="30sp" />
-
 </LinearLayout>
