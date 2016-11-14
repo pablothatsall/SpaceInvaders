@@ -22,7 +22,7 @@ public class Inicio extends Activity {
         setContentView(menu);
         jugar = (Button) findViewById(R.id.button);
         controles = (Button) findViewById(R.id.button2);
-        naves = (Button) findViewById(R.id.button3);
+        /*naves = (Button) findViewById(R.id.button3);*/
         jugar.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -41,7 +41,7 @@ public class Inicio extends Activity {
                 startActivity(iniciointent);
             }
         });
-        naves.setOnClickListener(new View.OnClickListener() {
+        /*naves.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -50,6 +50,6 @@ public class Inicio extends Activity {
                 startActivity(iniciointent);
             }
 
-        });
+        });*/
     }
     }
