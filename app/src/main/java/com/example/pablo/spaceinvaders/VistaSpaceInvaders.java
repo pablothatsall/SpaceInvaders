@@ -63,6 +63,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     int puntuacion = 0;
     int vidas = 3;
 
+
     private long intervaloAmenaza = 1000;
     private boolean uhOrOh;
     private long tiempoUltimaAmenaza = System.currentTimeMillis();

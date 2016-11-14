@@ -37,6 +37,16 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".ClaseNaves"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"
+            >
+            <intent-filter>
+                <action android:name="com.example.pablo.spaceinvaders.CLASENAVES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
