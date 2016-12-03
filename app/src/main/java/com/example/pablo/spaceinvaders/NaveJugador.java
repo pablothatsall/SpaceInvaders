@@ -32,7 +32,7 @@ public class NaveJugador {
         anchura = pantallaX/10;
         altura = pantallaY/10;
         x = pantallaX / 2;
-        y = pantallaY - 20;
+        y = pantallaY - 200;
         if (navex==1){
             bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.nave);
             bitmap = Bitmap.createScaledBitmap(bitmap, (int)(anchura), (int)(altura), false);}

@@ -340,7 +340,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
             case MotionEvent.ACTION_DOWN:
                 pausado = false;
-                if (motionEvent.getY() > pantallaY - pantallaY /6){
+                if (motionEvent.getY() >= pantallaY - pantallaY /5){
                     if (motionEvent.getX() > pantallaX / 2){
                         nave.setEstadoMovimiento(nave.DER);
                     }else{
@@ -348,14 +348,14 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     }
 
                 }
-                if(motionEvent.getY() < pantallaY - pantallaY / 6){
+                if(motionEvent.getY() < pantallaY - pantallaY / 5){
                     if(disparo.disparar(nave.getX()+nave.getAnchura()/2, pantallaY, disparo.UP)){
                         soundPool.play(shootID, 1, 1, 0, 0, 1);
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (motionEvent.getY() > pantallaY - pantallaY / 10){
+                if (motionEvent.getY() > pantallaY - pantallaY / 5){
                     nave.setEstadoMovimiento((nave.PARADO));
                 }
                 break;
