@@ -164,10 +164,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         boolean perdido = false;
         nave.actualizar(fps);
 
-        if(disparo.getPuntoImpactoY() < 0){
-            disparo.setInactiva();
-        }
-
         for(int i=0; i < disparoInvasores.length; i++){
             if(disparoInvasores[i].getPuntoImpactoY() > pantallaY){
                 disparoInvasores[i].setInactiva();
@@ -181,6 +177,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                         invaders[i].setInvisible();
                         soundPool.play(invaderExplodeID, 1, 1, 0, 0, 1);
                         disparo.setInactiva();
+                        disparo.actualizar(fps);
                         puntuacion = puntuacion + 10;
 
                         if(puntuacion == numInvaders*10){
@@ -213,6 +210,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 if (cubos[i].getVisibilidad()){
                     if(RectF.intersects(disparo.getRect(), cubos[i].getRect())){
                         disparo.setInactiva();
+                        disparo.actualizar(fps);
                         cubos[i].setInvisible();
                         soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
                     }
@@ -276,6 +274,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             disparo.actualizar(fps);
             if (disparo.getPuntoImpactoY() < 0){
                 disparo.setInactiva();
+                disparo.actualizar(fps);
             }
 
         }

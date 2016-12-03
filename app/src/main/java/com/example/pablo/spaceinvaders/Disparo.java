@@ -21,31 +21,34 @@ public class Disparo {
 
     private boolean activada;
 
-    public Disparo(int pantallaY){
+    public Disparo(int pantallaY) {
         altura = pantallaY / 20;
         activada = false;
         rect = new RectF();
     }
 
-    public RectF getRect(){
+    public RectF getRect() {
         return rect;
     }
-    public boolean getEstado(){
+
+    public boolean getEstado() {
         return activada;
     }
-    public void setInactiva(){
+
+    public void setInactiva() {
         activada = false;
     }
-    public float getPuntoImpactoY(){
-        if (heading == DOWN){
+
+    public float getPuntoImpactoY() {
+        if (heading == DOWN) {
             return y + altura;
-        }else{
+        } else {
             return y;
         }
     }
 
-    public boolean disparar(float iniX, float iniY, int direccion){
-        if (!activada){
+    public boolean disparar(float iniX, float iniY, int direccion) {
+        if (!activada) {
             x = iniX;
             y = iniY;
             heading = direccion;
@@ -56,11 +59,14 @@ public class Disparo {
         return false;
     }
 
-    public void actualizar(long fps){
-        if(heading == UP){
+    public void actualizar(long fps) {
+        if (heading == UP) {
             y = y - velocidad / fps;
-        }else{
+        } else {
             y = y + velocidad / fps;
+        }
+        if (!activada){
+            y = -100;
         }
         rect.left = x;
         rect.right = x + anchura;
