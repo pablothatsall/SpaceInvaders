@@ -257,7 +257,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             for(int i = 0; i < numInvaders; i++){
                 invaders[i].dropDownAndReverse();
                 if(invaders[i].getY() > pantallaY - (pantallaY / 8*2) - pantallaY / 40){
-                    pausado = true
+                    pausado = true;
                     perdido = true;
                 }
             }
