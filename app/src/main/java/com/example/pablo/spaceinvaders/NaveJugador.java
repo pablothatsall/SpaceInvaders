@@ -57,6 +57,7 @@ public class NaveJugador {
     public void setEstadoMovimiento(int estado){
         movimientoNave = estado;
     }
+    public float getAltura(){ return altura;}
 
     public void actualizar(long fps){
         if(movimientoNave == IZQ && x >= 1){

@@ -296,7 +296,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
             //Dibuja Cosas
 
-            lienzo.drawBitmap(nave.getBitmap(),nave.getX(), pantallaY - 80, paint);
+            lienzo.drawBitmap(nave.getBitmap(),nave.getX(), pantallaY-nave.getAltura(), paint);
             paint.setColor(Color.argb(255, 255, 255, 255));
 
             for(int i = 0; i < numInvaders; i++){
