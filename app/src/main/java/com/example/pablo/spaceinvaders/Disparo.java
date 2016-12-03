@@ -70,7 +70,7 @@ public class Disparo {
         }
         rect.left = x;
         rect.right = x + anchura;
-        rect.top = y+ altura;
+        rect.top = y - altura ;
         rect.bottom = y ;
     }
 }

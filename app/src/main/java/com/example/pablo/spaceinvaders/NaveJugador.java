@@ -32,7 +32,7 @@ public class NaveJugador {
         anchura = pantallaX/10;
         altura = pantallaY/10;
         x = pantallaX / 2;
-        y = pantallaY - 200;
+        y = pantallaY;
         if (navex==1){
             bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.nave);
             bitmap = Bitmap.createScaledBitmap(bitmap, (int)(anchura), (int)(altura), false);}
@@ -65,8 +65,8 @@ public class NaveJugador {
         }else if(movimientoNave == DER && x <= anchura*9){
             x = x + velocidadNave / fps;
         }
-        rect.top = y;
-        rect.bottom = y + altura;
+        rect.top = y - altura;
+        rect.bottom = y ;
         rect.left = x;
         rect.right = x + anchura;
     }
