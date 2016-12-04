@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import static com.example.pablo.spaceinvaders.R.layout.controles;
 import static com.example.pablo.spaceinvaders.R.layout.menu;
 
 /**
