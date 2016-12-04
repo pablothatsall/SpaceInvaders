@@ -1,7 +1,6 @@
 package com.example.pablo.spaceinvaders;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
@@ -10,16 +9,12 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
-
-import static com.example.pablo.spaceinvaders.R.layout.gameover;
-import static com.example.pablo.spaceinvaders.SpaceInvadersActivity.*;
 
 /**
  * Created by Pablo on 28/09/2016.
@@ -52,6 +47,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     Invader[] invaders = new Invader[60];
     int numInvaders = 0;
+    int invaderVivos;
 
     //Cubos defensivos
     private CuboDefensivo[] cubos = new CuboDefensivo[400];
@@ -65,6 +61,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private int uhID = -1;
     private int ohID = -1;
 
+    int nivel = 1;
     int puntuacion = 0;
     int vidas = 3;
 
@@ -73,7 +70,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private boolean uhOrOh;
     private long tiempoUltimaAmenaza = System.currentTimeMillis();
 
-    public VistaSpaceInvaders(Context context, int x, int y){
+    public VistaSpaceInvaders(Context context, int x, int y) {
         super(context);
         this.context = context;
 
@@ -100,33 +97,34 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
             descriptor = assetManager.openFd("playerexplode.ogg");
             playerExplodeID = soundPool.load(descriptor, 0);
-        }catch (IOException e){
+        } catch (IOException e) {
             Log.e("error", "failed to load sound files");
         }
 
         prepararNivel();
     }
-    private void prepararNivel(){
+
+    private void prepararNivel() {
         //Aquí se inicializa
         intervaloAmenaza = 1000;
-        nave = new NaveJugador(context, pantallaX, pantallaY);
+        nave = new NaveJugador(context, pantallaX, pantallaY, ClaseNaves.getNave());
         disparo = new Disparo(pantallaY);
-        for(int i = 0; i < disparoInvasores.length; i++){
+        for (int i = 0; i < disparoInvasores.length; i++) {
             disparoInvasores[i] = new Disparo(pantallaY);
         }
 
         numInvaders = 0;
-        for (int columna = 0; columna < 6; columna++){
-            for(int fila = 0; fila < 5; fila++){
+        for (int columna = 0; columna < 6; columna++) {
+            for (int fila = 0; fila < nivel; fila++) {
                 invaders[numInvaders] = new Invader(context, fila, columna, pantallaX, pantallaY);
                 numInvaders++;
             }
         }
-
+        invaderVivos = numInvaders;
         numCubos = 0;
-        for(int numEscudos = 0; numEscudos < 4; numEscudos++){
-            for(int columna = 0; columna < 10; columna++){
-                for (int fila = 0; fila < 5; fila ++){
+        for (int numEscudos = 0; numEscudos < 4; numEscudos++) {
+            for (int columna = 0; columna < 10; columna++) {
+                for (int fila = 0; fila < 5; fila++) {
                     cubos[numCubos] = new CuboDefensivo(fila, columna, numEscudos, pantallaX, pantallaY);
                     numCubos++;
                 }
@@ -137,23 +135,23 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
 
     @Override
-    public void run(){
-        while (funcionando){
+    public void run() {
+        while (funcionando) {
             long startFrameTime = System.currentTimeMillis();
-            if(!pausado){
+            if (!pausado) {
                 actualizar();
             }
             draw();
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
-            if(timeThisFrame >= 1){
+            if (timeThisFrame >= 1) {
                 fps = 1000 / timeThisFrame;
             }
 
-            if(!pausado) {
+            if (!pausado) {
                 if ((startFrameTime - tiempoUltimaAmenaza) > intervaloAmenaza) {
-                    if(uhOrOh){
+                    if (uhOrOh) {
                         soundPool.play(uhID, 1, 1, 0, 0, 1);
-                    }else{
+                    } else {
                         soundPool.play(ohID, 1, 1, 0, 0, 1);
                     }
                     tiempoUltimaAmenaza = System.currentTimeMillis();
@@ -164,43 +162,48 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     }
 
-    private void actualizar(){
+    private void actualizar() {
         boolean bumped = false;
         boolean perdido = false;
         nave.actualizar(fps);
 
-        for(int i=0; i < disparoInvasores.length; i++){
-            if(disparoInvasores[i].getPuntoImpactoY() > pantallaY){
+        for (int i = 0; i < disparoInvasores.length; i++) {
+            if (disparoInvasores[i].getPuntoImpactoY() > pantallaY) {
                 disparoInvasores[i].setInactiva();
             }
         }
 
-        if(disparo.getEstado()){
-            for(int i = 0; i < numInvaders; i++){
-                if(invaders[i].getVisibilidad()){
-                    if(RectF.intersects(disparo.getRect(), invaders[i].getRect())){
+        if (disparo.getEstado()) {
+            for (int i = 0; i < numInvaders; i++) {
+                if (invaders[i].getVisibilidad()) {
+                    if (RectF.intersects(disparo.getRect(), invaders[i].getRect())) {
                         invaders[i].setInvisible();
                         soundPool.play(invaderExplodeID, 1, 1, 0, 0, 1);
                         disparo.setInactiva();
                         disparo.actualizar(fps);
+                        invaderVivos--;
                         puntuacion = puntuacion + 10;
 
-                        if(puntuacion == numInvaders*10){
-                            pausado = true;
-                            puntuacion = 0;
-                            vidas = 3;
-                            prepararNivel();
+                        if (invaderVivos == 0) {
+                            if (nivel < 5) {
+                                pausado = true;
+                                puntuacion = 0;
+                                vidas = 3;
+                                nivel++;
+                                prepararNivel();
+                            }
+
                         }
                     }
                 }
             }
         }
 
-        for(int i = 0; i < disparoInvasores.length; i++){
+        for (int i = 0; i < disparoInvasores.length; i++) {
             if (disparoInvasores[i].getEstado()) {
-                for(int j= 0; j < numCubos; j++){
-                    if(cubos[j].getVisibilidad()){
-                        if(RectF.intersects(disparoInvasores[i].getRect(), cubos[j].getRect())){
+                for (int j = 0; j < numCubos; j++) {
+                    if (cubos[j].getVisibilidad()) {
+                        if (RectF.intersects(disparoInvasores[i].getRect(), cubos[j].getRect())) {
                             disparoInvasores[i].setInactiva();
                             cubos[j].setInvisible();
                             soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
@@ -210,10 +213,10 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
         }
 
-        if(disparo.getEstado()){
-            for(int i = 0; i < numCubos; i++) {
-                if (cubos[i].getVisibilidad()){
-                    if(RectF.intersects(disparo.getRect(), cubos[i].getRect())){
+        if (disparo.getEstado()) {
+            for (int i = 0; i < numCubos; i++) {
+                if (cubos[i].getVisibilidad()) {
+                    if (RectF.intersects(disparo.getRect(), cubos[i].getRect())) {
                         disparo.setInactiva();
                         disparo.actualizar(fps);
                         cubos[i].setInvisible();
@@ -223,16 +226,16 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
         }
 
-        for(int i = 0; i < disparoInvasores.length; i++){
-            if(disparoInvasores[i].getEstado()){
-                if(RectF.intersects(nave.getRect(), disparoInvasores[i].getRect())){
+        for (int i = 0; i < disparoInvasores.length; i++) {
+            if (disparoInvasores[i].getEstado()) {
+                if (RectF.intersects(nave.getRect(), disparoInvasores[i].getRect())) {
                     disparoInvasores[i].setInactiva();
                     vidas--;
                     soundPool.play(playerExplodeID, 1, 1, 0, 0, 1);
 
-                    if(vidas == 0){
+                    if (vidas == 0) {
+                        nivel = 1;
                         pausado = true;
-
                         vidas = 3;
                         puntuacion = 0;
                         prepararNivel();
@@ -241,49 +244,45 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
         }
 
-        for(int i = 0; i<numInvaders; i++){
-            if(invaders[i].getVisibilidad()){
+        for (int i = 0; i < numInvaders; i++) {
+            if (invaders[i].getVisibilidad()) {
                 invaders[i].actualizar(fps); //Mueve al siguien invasor
-                if(invaders[i].takeAim(nave.getX(), nave.getAnchura())){
-                    if(disparoInvasores[sigDisparo].disparar(invaders[i].getX() + invaders[i].getAnchura() / 2, invaders[i].getY(), disparo.DOWN)){
+                if (invaders[i].takeAim(nave.getX(), nave.getAnchura())) {
+                    if (disparoInvasores[sigDisparo].disparar(invaders[i].getX() + invaders[i].getAnchura() / 2, invaders[i].getY(), disparo.DOWN)) {
                         sigDisparo++;
 
-                        if(sigDisparo == maxDisparos){
+                        if (sigDisparo == maxDisparos) {
                             sigDisparo = 0;
                         }
                     }
                 }
-                if(invaders[i].getX() > pantallaX - invaders[i].getAnchura() || invaders[i].getX() < 0){
+                if (invaders[i].getX() > pantallaX - invaders[i].getAnchura() || invaders[i].getX() < 0) {
                     bumped = true;
                 }
             }
         }
 
-        if(bumped){
-            for(int i = 0; i < numInvaders; i++){
+        if (bumped) {
+            for (int i = 0; i < numInvaders; i++) {
                 invaders[i].dropDownAndReverse();
-                if(invaders[i].getY() > pantallaY - (pantallaY / 8*2) - pantallaY / 40){
+                if (invaders[i].getY() > pantallaY - (pantallaY / 8 * 2) - pantallaY / 40) {
                     pausado = true;
                     perdido = true;
                 }
             }
             intervaloAmenaza = intervaloAmenaza - 80;
         }
-        for(int i = 0; i < disparoInvasores.length; i++){
-            if(disparoInvasores[i].getEstado()){
+        for (int i = 0; i < disparoInvasores.length; i++) {
+            if (disparoInvasores[i].getEstado()) {
                 disparoInvasores[i].actualizar(fps);
             }
         }
         if (perdido) {
-            vidas = 0;
-            pausado = true;
-            vidas = 3;
-            puntuacion = 0;
             prepararNivel();
         }
-        if(disparo.getEstado()){
+        if (disparo.getEstado()) {
             disparo.actualizar(fps);
-            if (disparo.getPuntoImpactoY() < 0){
+            if (disparo.getPuntoImpactoY() < 0) {
                 disparo.setInactiva();
                 disparo.actualizar(fps);
             }
@@ -291,8 +290,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
     }
 
-    private void draw(){
-        if (holder.getSurface().isValid()){
+    private void draw() {
+        if (holder.getSurface().isValid()) {
             lienzo = holder.lockCanvas();
 
             lienzo.drawColor(Color.argb(255, 0, 0, 0));
@@ -300,74 +299,73 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             if (disparo.getEstado()) {
                 lienzo.drawRect(disparo.getRect(), paint);
             }
-            for(int i = 0; i < disparoInvasores.length; i++){
-                if(disparoInvasores[i].getEstado()){
+            for (int i = 0; i < disparoInvasores.length; i++) {
+                if (disparoInvasores[i].getEstado()) {
                     lienzo.drawRect(disparoInvasores[i].getRect(), paint);
                 }
             }
             //Dibuja Cosas
 
-            lienzo.drawBitmap(nave.getBitmap(),nave.getX(), pantallaY-nave.getAltura(), paint);
+            lienzo.drawBitmap(nave.getBitmap(), nave.getX(), pantallaY - nave.getAltura(), paint);
             paint.setColor(Color.argb(255, 255, 255, 255));
 
-            for(int i = 0; i < numInvaders; i++){
-                if (invaders[i].getVisibilidad()){
-                    if(uhOrOh){
+            for (int i = 0; i < numInvaders; i++) {
+                if (invaders[i].getVisibilidad()) {
+                    if (uhOrOh) {
                         lienzo.drawBitmap(invaders[i].getBitmap(), invaders[i].getX(), invaders[i].getY(), paint);
-                    }else{
+                    } else {
                         lienzo.drawBitmap(invaders[i].getBitmap2(), invaders[i].getX(), invaders[i].getY(), paint);
                     }
                 }
             }
-            for(int i = 0; i < numCubos; i++){
-                if(cubos[i].getVisibilidad()){
+            for (int i = 0; i < numCubos; i++) {
+                if (cubos[i].getVisibilidad()) {
                     lienzo.drawRect(cubos[i].getRect(), paint);
                 }
             }
             paint.setTextSize(40);
-            lienzo.drawText(puntuacion + " ptos" , 10, 50, paint);
-            lienzo.drawText("Vidas: " + vidas, pantallaX-pantallaX/8, 50, paint);
+            lienzo.drawText(puntuacion + " ptos", 10, 50, paint);
+            lienzo.drawText("Vidas: " + vidas, pantallaX - pantallaX / 8, 50, paint);
             holder.unlockCanvasAndPost(lienzo);
         }
     }
 
-
-    public void pausa(){
+    public void pausa() {
         funcionando = false;
-        try{
+        try {
             hilo.join();
-        }catch(InterruptedException e){
+        } catch (InterruptedException e) {
             Log.e("Error: ", "joining thread");
         }
     }
-    public void continuar(){
+
+    public void continuar() {
         funcionando = true;
         hilo = new Thread(this);
         hilo.start();
     }
 
-
     @Override
-    public boolean onTouchEvent(MotionEvent motionEvent){
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 pausado = false;
-                if (motionEvent.getY() >= pantallaY - pantallaY /5){
-                    if (motionEvent.getX() > pantallaX / 2){
+                if (motionEvent.getY() >= pantallaY - pantallaY / 5) {
+                    if (motionEvent.getX() > pantallaX / 2) {
                         nave.setEstadoMovimiento(nave.DER);
-                    }else{
+                    } else {
                         nave.setEstadoMovimiento(nave.IZQ);
                     }
 
                 }
-                if(motionEvent.getY() < pantallaY - pantallaY / 5){
-                    if(disparo.disparar(nave.getX()+nave.getAnchura()/2, pantallaY, disparo.UP)){
+                if (motionEvent.getY() < pantallaY - pantallaY / 5) {
+                    if (disparo.disparar(nave.getX() + nave.getAnchura() / 2, pantallaY, disparo.UP)) {
                         soundPool.play(shootID, 1, 1, 0, 0, 1);
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (motionEvent.getY() > pantallaY - pantallaY / 5){
+                if (motionEvent.getY() > pantallaY - pantallaY / 5) {
                     nave.setEstadoMovimiento((nave.PARADO));
                 }
                 break;
