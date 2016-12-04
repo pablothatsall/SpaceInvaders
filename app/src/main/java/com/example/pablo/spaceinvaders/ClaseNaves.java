@@ -14,7 +14,7 @@ import static com.example.pablo.spaceinvaders.R.layout.naves;
 public class ClaseNaves extends Activity {
     Button nave1;
     Button nave2;
-    static int nave;
+    static int nave = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

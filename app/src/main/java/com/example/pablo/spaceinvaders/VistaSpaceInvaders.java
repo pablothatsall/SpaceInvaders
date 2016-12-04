@@ -104,7 +104,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private void prepararNivel(){
         //Aquí se inicializa
         intervaloAmenaza = 1000;
-        nave = new NaveJugador(context, pantallaX, pantallaY);
+        nave = new NaveJugador(context, pantallaX, pantallaY, ClaseNaves.getNave());
         disparo = new Disparo(pantallaY);
         for(int i = 0; i < disparoInvasores.length; i++){
             disparoInvasores[i] = new Disparo(pantallaY);
