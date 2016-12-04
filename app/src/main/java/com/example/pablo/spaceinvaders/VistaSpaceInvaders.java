@@ -1,6 +1,7 @@
 package com.example.pablo.spaceinvaders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 
 import java.io.IOException;
 
@@ -234,11 +236,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     soundPool.play(playerExplodeID, 1, 1, 0, 0, 1);
 
                     if (vidas == 0) {
-                        nivel = 1;
-                        pausado = true;
-                        vidas = 3;
-                        puntuacion = 0;
-                        prepararNivel();
+                        GameOverMethod();
+                        System.exit(0);
                     }
                 }
             }
@@ -278,7 +277,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
         }
         if (perdido) {
-            prepararNivel();
+            GameOverMethod();
+            System.exit(0);
         }
         if (disparo.getEstado()) {
             disparo.actualizar(fps);
@@ -372,4 +372,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
         return true;
     }
+
+    private void GameOverMethod(){
+        context.startActivity(new Intent(context, GameOver.class));
+    }
+
 }

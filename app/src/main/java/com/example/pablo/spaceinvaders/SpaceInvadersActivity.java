@@ -34,4 +34,5 @@ public class SpaceInvadersActivity extends Activity {
         vista.pausa();
     }
 
+
 }
