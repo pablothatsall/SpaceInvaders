@@ -1,6 +1,7 @@
 package com.example.pablo.spaceinvaders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
@@ -9,12 +10,16 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+
+import static com.example.pablo.spaceinvaders.R.layout.gameover;
+import static com.example.pablo.spaceinvaders.SpaceInvadersActivity.*;
 
 /**
  * Created by Pablo on 28/09/2016.
@@ -227,6 +232,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
                     if(vidas == 0){
                         pausado = true;
+
                         vidas = 3;
                         puntuacion = 0;
                         prepararNivel();
@@ -268,7 +274,11 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 disparoInvasores[i].actualizar(fps);
             }
         }
-        if (perdido){
+        if (perdido) {
+            vidas = 0;
+            pausado = true;
+            vidas = 3;
+            puntuacion = 0;
             prepararNivel();
         }
         if(disparo.getEstado()){
@@ -321,6 +331,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
     }
 
+
     public void pausa(){
         funcionando = false;
         try{
@@ -334,6 +345,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         hilo = new Thread(this);
         hilo.start();
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent){
