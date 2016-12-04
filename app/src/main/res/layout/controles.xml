@@ -15,7 +15,7 @@
         android:paddingTop="40dp"/>
 
     <TextView
-        android:text="Si mantienes pulsado el lado izquierdo de la pantalla la nave se desplaza a la izquierda"
+        android:text="Si mantienes pulsado la parte de abajo a la izquierda de la pantalla la nave se desplaza a la derecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -25,7 +25,7 @@
         android:paddingRight="30dp"/>
 
     <TextView
-        android:text="Si mantienes pulsado el lado derecho de la pantalla la nave se mueve a la izquierda"
+        android:text="Si mantienes pulsado la parte de abajo a la derecha de la pantalla la nave se desplaza a la izquierda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -33,4 +33,14 @@
         android:textSize="20sp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"/>
+
+    <TextView
+        android:text="Si pulsas la parte central de la pantalla la nave dispara"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_weight="0.11"
+        android:textSize="20sp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp" />
 </LinearLayout>

@@ -14,7 +14,7 @@ public class NaveJugador {
     private Bitmap bitmap;
     private float anchura;
     private float altura;
-    public int navex = 1;
+    public int nave = 1;
 
 
     private float x;
@@ -27,18 +27,19 @@ public class NaveJugador {
 
     private int movimientoNave = PARADO;
 
-    public NaveJugador (Context context, int pantallaX, int pantallaY){
+    public NaveJugador (Context context, int pantallaX, int pantallaY, int nave){
         rect = new RectF();
         anchura = pantallaX/10;
         altura = pantallaY/10;
         x = pantallaX / 2;
         y = pantallaY;
-        if (navex==1){
+        if (nave == 1){
             bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.nave);
             bitmap = Bitmap.createScaledBitmap(bitmap, (int)(anchura), (int)(altura), false);}
-        else if (navex==2){
+        else if (nave == 2){
             bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.nave2);
-            bitmap = Bitmap.createScaledBitmap(bitmap, (int)(anchura), (int)(altura), false);}
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int)(anchura), (int)(altura), false);
+        }
         velocidadNave = 350;
     }
 
