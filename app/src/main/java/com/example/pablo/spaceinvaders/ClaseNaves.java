@@ -1,6 +1,7 @@
 package com.example.pablo.spaceinvaders;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,8 @@ public class ClaseNaves extends Activity {
             public void onClick(View view) {
                 // TODO Auto-generated method stub
                 nave = 1;
+                ClaseNaves.super.onBackPressed();
+
             }
 
         });
@@ -36,6 +39,8 @@ public class ClaseNaves extends Activity {
             public void onClick(View view) {
                 // TODO Auto-generated method stub
                 nave = 2;
+                ClaseNaves.super.onBackPressed();
+
             }
 
         });

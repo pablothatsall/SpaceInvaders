@@ -2,6 +2,7 @@ package com.example.pablo.spaceinvaders;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import static com.example.pablo.spaceinvaders.R.layout.controles;
 
@@ -13,4 +14,5 @@ public class ClaseControles extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(controles);}
+
 }

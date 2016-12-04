@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -17,17 +18,19 @@
 
     <Button
         android:text="NAVE 1"
-        android:layout_width="match_parent"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:id="@+id/button4"
-        android:layout_weight="0.30" />
+        android:background="@drawable/nave" />
 
     <Button
         android:text="NAVE 2"
-        android:layout_width="match_parent"
+        android:layout_width="169dp"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
-        android:layout_weight="0.30" />
+        android:layout_weight="0.06"
+        android:background="@drawable/nave2"
+        android:layout_centerInParent="true"/>
 
 </LinearLayout>
 
