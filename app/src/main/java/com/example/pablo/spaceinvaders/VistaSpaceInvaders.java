@@ -64,7 +64,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private int ohID = -1;
 
     int nivel = 1;
-    int puntuacion = 0;
+    int puntuacion;
     int vidas = 3;
 
 
@@ -189,7 +189,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                         if (invaderVivos == 0) {
                             if (nivel < 5) {
                                 pausado = true;
-                                puntuacion = 0;
                                 vidas = 3;
                                 nivel++;
                                 prepararNivel();
