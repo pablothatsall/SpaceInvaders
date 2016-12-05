@@ -14,5 +14,10 @@ public class ClaseControles extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(controles);}
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        super.onBackPressed();
+        return true;
+    }
+
 
 }
